@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio – Collomp Elenaic</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Caveat:wght@700&family=Cormorant+Garamond:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/portfolio.css" />
+  </head>
+  <body>
+    <section class="hero">
+      <div class="hero-bg"></div>
+
+      <nav>
+        <a href="index.html" class="logo">ec</a>
+        <div class="nav-links">
+          <a href="apropos.html">à propos</a>
+          <a href="projets.html">projets</a>
+          <a href="contact.html">contact</a>
+        </div>
+        <span class="griboulli"><img src="assets/images/grib.png" alt="" /></span>
+      </nav>
+
+      <div class="hero-center">
+        <h1 class="portfolio-script">portfolio</h1>
+        <p class="author">collomp elenaic</p>
+      </div>
+
+      <span class="year year-left">2025</span>
+      <span class="year year-right">2026</span>
+    </section>
+
+    <section class="about">
+      <div class="about-container">
+        <div class="about-text">
+          <h2>à propos</h2>
+          <p>
+            Actuellement étudiante en 3ème année de BUT Métiers du Multimédia et
+            de l'Internet ( parcours stratégie de communication et design
+            d'expérience ), j'ai développé au cours de ma formation des
+            compétences en communication, création numérique et développement
+            web. <br />
+            <br />
+            Depuis ma deuxième année je réalise mon alternance en tant que
+            responsable communication/ graphiste chez Tea Shop, une jeune
+            entreprise spécialisée dans la vente de thé. Ce portfolio rassemble
+            l'ensemble de mes travaux réalisés dans le cadre scolaire,
+            professionnel et personnel. Il illustre mon parcours
+            pluridisciplinaire et mon amour de la création numérique sous toutes
+            ses formes.
+          </p>
+          <a href="projets.html" class="about-btn">Voir mes créations</a>
+        </div>
+
+        <div class="about-image">
+          <img src="assets/images/NV2A1919.jpg" alt="portrait" />
+        </div>
+      </div>
+    </section>
+
+    <section class="projects">
+      <div class="projects-bg"></div>
+
+      <div class="projects-content">
+        <h2 class="projects-title">mes projets</h2>
+
+        <div class="projects-grid" id="home-projects-grid">
+          <!-- rempli par JS -->
+        </div>
+
+        <a href="projets.html" class="see-all-btn">voir tous mes projets</a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <p class="footer-name">collomp elenaic</p>
+
+        <div class="footer-socials">
+          <a href="#"><img src="assets/images/instagram.png" alt="instagram" /></a>
+          <a href="#"><img src="assets/images/linkedin.png" alt="linkedin" /></a>
+        </div>
+
+        <a href="contact.html" class="footer-contact">contact</a>
+      </div>
+    </footer>
+
+    <script>
+      fetch("projects.json")
+        .then((res) => res.json())
+        .then((data) => {
+          const grid = document.getElementById("home-projects-grid");
+          const preview = data.slice(0, 3);
+          grid.innerHTML = preview
+            .map(
+              (proj) => `
+            <a href="travail.html?slug=${proj.slug}" class="card">
+              <div class="card-img">
+                <img src="assets/images/${Array.isArray(proj.image) ? proj.image[0] : proj.image}" alt="${proj.titre}">
+              </div>
+              <div class="card-label">
+                <span class="card-label-title">${proj.titre}</span>
+                <span class="card-label-pole">${Array.isArray(proj.pole) ? proj.pole.join(' · ') : proj.pole}</span>
+              </div>
+            </a>
+          `,
+            )
+            .join("");
+        })
+        .catch(() => {
+          const grid = document.getElementById("home-projects-grid");
+          grid.innerHTML = Array(3)
+            .fill(
+              `
+            <div class="card">
+              <div class="card-img"></div>
+              <div class="card-label"><span class="card-label-title">–</span></div>
+            </div>`,
+            )
+            .join("");
+        });
+    </script>
+  </body>
+</html>
